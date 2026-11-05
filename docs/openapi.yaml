@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: ChromeLab Attributes API
+  version: 0.1.0
+  description: Experimental attribute planning only. No perks, persistence or game changes.
+servers:
+  - url: http://127.0.0.1:8080
+paths:
+  /api/v1/health:
+    get:
+      operationId: health
+      responses:
+        '200':
+          description: Process liveness, not database readiness
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: {type: string, enum: [ok]}
+  /api/v1/plans:
+    post:
+      operationId: createPlan
+      description: Stateless deterministic plan; target attributes are minima. Does not save or apply a reset.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/PlanRequest'}
+            example:
+              rulesetId: attributes-2.0-v1
+              level: 23
+              targetLevel: 40
+              phantomLiberty: false
+              resetAvailable: false
+              allowReset: false
+              attributes: {body: 10, reflexes: 10, technicalAbility: 9, intelligence: 8, cool: 7}
+              targetAttributes: {body: 15, reflexes: 20, technicalAbility: 9, intelligence: 3, cool: 3}
+      responses:
+        '200':
+          description: Diagnosis, including unreachable targets
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlanResult'}
+        '400':
+          description: Malformed JSON, wrong types, unknown fields or invalid domain input
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [code, message]
+                properties:
+                  code: {type: string, enum: [INVALID_REQUEST]}
+                  message: {type: string}
+components:
+  schemas:
+    Attributes:
+      type: object
+      additionalProperties: false
+      required: [body, reflexes, technicalAbility, intelligence, cool]
+      properties:
+        body: {type: integer, minimum: 3, maximum: 20}
+        reflexes: {type: integer, minimum: 3, maximum: 20}
+        technicalAbility: {type: integer, minimum: 3, maximum: 20}
+        intelligence: {type: integer, minimum: 3, maximum: 20}
+        cool: {type: integer, minimum: 3, maximum: 20}
+    PlanRequest:
+      type: object
+      additionalProperties: false
+      required: [rulesetId, level, targetLevel, phantomLiberty, resetAvailable, allowReset, attributes, targetAttributes]
+      description: Base cap50 or DLC cap60; targetLevel>=level; current sum<=level+21. At level1 current attributes<=6. All numbers must be JSON integers without string/float coercion.
+      properties:
+        rulesetId: {type: string, enum: [attributes-2.0-v1]}
+        level: {type: integer, minimum: 1, maximum: 60}
+        targetLevel: {type: integer, minimum: 1, maximum: 60}
+        phantomLiberty: {type: boolean}
+        resetAvailable: {type: boolean}
+        allowReset: {type: boolean}
+        attributes: {$ref: '#/components/schemas/Attributes'}
+        targetAttributes: {$ref: '#/components/schemas/Attributes'}
+    PlanResult:
+      type: object
+      required: [rulesetId, status, usesReset, unspentNow, pointsNeeded, pointsAvailable, shortfall, earliestLevel, finalAttributes, steps, explanations]
+      properties:
+        rulesetId: {type: string, enum: [attributes-2.0-v1]}
+        status: {type: string, enum: [REACHABLE, REQUIRES_RESET, UNREACHABLE]}
+        usesReset: {type: boolean}
+        unspentNow:
+          type: integer
+          minimum: 0
+          description: Original character balance before any simulated reset
+        pointsNeeded: {type: integer, minimum: 0}
+        pointsAvailable: {type: integer, minimum: 0}
+        shortfall:
+          type: integer
+          minimum: 0
+          description: Point deficit of returned route; may be zero for unreachable level1 cap constraints
+        earliestLevel: {type: integer, minimum: 1, maximum: 60, nullable: true}
+        finalAttributes: {$ref: '#/components/schemas/Attributes'}
+        steps:
+          type: array
+          maxItems: 85
+          items:
+            type: object
+            required: [level, attribute, from, to]
+            properties:
+              level: {type: integer, minimum: 1, maximum: 60}
+              attribute: {type: string, enum: [body, reflexes, technicalAbility, intelligence, cool]}
+              from: {type: integer, minimum: 3, maximum: 19}
+              to: {type: integer, minimum: 4, maximum: 20}
+        explanations:
+          type: array
+          items: {type: string}

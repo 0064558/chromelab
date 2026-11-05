@@ -1,0 +1,12 @@
+node_modules/
+dist/
+target/
+.env
+.firecrawl/
+*.log
+.DS_Store
+.m2/
+coverage/
+.npm-cache/
+.cache/
+work/
