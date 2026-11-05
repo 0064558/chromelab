@@ -58,11 +58,13 @@ export default function App() {
       <form onSubmit={submit}>
         <div className="character-workspace">
           <aside className="character-sidebar" aria-label="Configurações da progressão">
+            <p className="rail-kicker">01 / PONTO DE PARTIDA</p>
             <h2>PARÂMETROS DA ROTA</h2>
+            <div className="level-fields">
             <label className="level-field">Nível atual<input type="number" min={1} max={form.phantomLiberty ? 60 : 50} step={1} required value={Number.isFinite(form.level) ? form.level : ''} onChange={e => { const level = e.currentTarget.valueAsNumber; update({ level, ...(level === 1 ? { resetAvailable: false, allowReset: false } : {}) }); }} /></label>
             <label className="level-field">Nível alvo<input type="number" min={Number.isFinite(form.level) ? form.level : 1} max={form.phantomLiberty ? 60 : 50} step={1} required value={Number.isFinite(form.targetLevel) ? form.targetLevel : ''} onChange={e => update({ targetLevel: e.currentTarget.valueAsNumber })} /></label>
+            </div>
             <label className="check"><input type="checkbox" checked={form.phantomLiberty} onChange={e => update({ phantomLiberty: e.target.checked })}/><span>Phantom Liberty<small>Progressão até o nível 60.</small></span></label>
-            <div className="sidebar-section"><h2>OBJETIVOS RÁPIDOS</h2><div className="presets">{presets.map(preset => <button type="button" key={preset.name} title={preset.description} onClick={() => { update({ targetAttributes: { ...preset.attributes } }); setEditing('target'); }}>{preset.name}<span aria-hidden="true">↗</span></button>)}</div><p className="hint">Sugestões editoriais de atributos. Os objetivos são mínimos desejados.</p></div>
             <div className="sidebar-section reset-options"><h2>REDEFINIÇÃO DE ATRIBUTOS</h2><label className="check"><input type="checkbox" disabled={resetDisabled} checked={form.resetAvailable} onChange={e => update({ resetAvailable: e.target.checked, allowReset: e.target.checked ? form.allowReset : false })}/><span>Ainda tenho o reset disponível</span></label><label className="check"><input type="checkbox" disabled={!form.resetAvailable || resetDisabled} checked={form.allowReset} onChange={e => update({ allowReset: e.target.checked })}/><span>Permitir simulação com reset<small>Nenhuma alteração é feita no jogo.</small></span></label>{resetDisabled && <p className="hint">Reset indisponível nesta prévia no nível 1.</p>}</div>
           </aside>
           <section className="character-stage" aria-label="Distribuição de atributos">
@@ -70,6 +72,13 @@ export default function App() {
             <p className="stage-hint">{editing === 'current' ? 'REPRODUZA OS ATRIBUTOS DO SEU PERSONAGEM' : 'DEFINA OS MÍNIMOS QUE DESEJA ALCANÇAR'}</p>
             <div id="attribute-panel" role="tabpanel" aria-labelledby={editing === 'current' ? 'current-tab' : 'target-tab'}><AttributeBoard title={editing === 'current' ? 'Atributos atuais' : 'Objetivo mínimo'} values={editing === 'current' ? form.attributes : form.targetAttributes} max={editing === 'current' && form.level === 1 ? 6 : 20} level={editing === 'current' ? form.level : form.targetLevel} onChange={values => update(editing === 'current' ? { attributes: values } : { targetAttributes: values })}/></div>
           </section>
+          <aside className="character-presets" aria-label="Objetivos rápidos">
+            <p className="rail-kicker">02 / SEU DESTINO</p>
+            <h2>OBJETIVOS RÁPIDOS</h2>
+            <p className="rail-intro">Escolha um ponto de partida para o seu objetivo. Depois, ajuste os atributos no painel.</p>
+            <div className="presets">{presets.map(preset => <button type="button" key={preset.name} aria-label={preset.name} title={preset.description} onClick={() => { update({ targetAttributes: { ...preset.attributes } }); setEditing('target'); }}><span className="preset-copy"><span>{preset.name}</span><small>{preset.description}</small></span><span aria-hidden="true">↗</span></button>)}</div>
+            <p className="hint">Sugestões editoriais de atributos. Os objetivos são mínimos desejados.</p>
+          </aside>
         </div>
         <div className="command-bar"><div className="command-status"><span className="status-dot" />SISTEMA DE ATRIBUTOS<small>Perks, armas e cyberware ainda não são avaliados.</small></div><button className="primary" disabled={loading} type="submit">{loading ? 'Calculando rota…' : 'Traçar minha rota'}<span aria-hidden="true">↗</span></button></div>
       </form>

@@ -11,4 +11,6 @@ Reutilizar recursos públicos de fundo, painéis, ícones e fontes para atender 
 
 Um painel radial alterna Personagem atual/Objetivo; editar por número ou +/−. Configurações de níveis, DLC e consentimento ficam em coluna lateral. Estado selecionado ciano, erro vermelho, ação principal amarela. Resultado usa os mesmos tokens. Controles são semanticamente rotulados e teclado continua funcional. Em telas estreitas o painel radial vira lista para manter alvos de toque e números legíveis. Essa adaptação mobile é uma decisão ChromeLab, não uma medição da referência.
 
+Refinamento de distribuição: no desktop (a partir de 1200px), duas colunas laterais iguais enquadram o painel radial e o botão principal no eixo central da tela. Parâmetros e reset à esquerda; objetivos com descrições à direita. Abaixo desse limite, o painel precede as configurações para evitar recortes. A escala radial cresceu 10% em relação à versão compacta (.704 e .583 em telas baixas); margens e cabeçalho compensam o aumento sem forçar o zoom do navegador.
+
 Não adicionar árvore de perks falsa, Relic funcional ou regra na UI. Os mínimos continuam sendo validados exclusivamente no Java. Preservar cancelamento de requisições e descarte de resultado obsoleto. Não alegar equivalência pixel a pixel antes de comparação visual renderizada.
