@@ -24,6 +24,15 @@ M1: testes adicionais obrigatórios antes de anunciar MVP completo: rank inváli
 
 Definition of Done por tarefa: requisito e contrato atualizados; testes relevantes passam; revisor verifica negativos e fonte de dados; nenhuma promessa maior que cobertura; instruções de execução reproduzíveis; limitações registradas. Status real dos checks em `verification.md`.
 
+## CL-005 — infraestrutura PostgreSQL
+
+- DB01: executar V1 pelo Flyway em schema vazio e exclusivo do teste num PostgreSQL real; repetir migrate sem reaplicar V1 nem perder dados.
+- DB02: inserir e reler ruleset, build e snapshot com UUID, JSONB e vínculo corretos; usar payload real do motor experimental, sem anunciar persistência HTTP ou certificação do jogo.
+- DB03: provar rejeição de FKs inexistentes em build/snapshot e de JSONB não objeto; manter V1 intacta.
+- DB04: execução opt-in explícita, falhar se banco solicitado estiver indisponível, isolar e remover somente schema criado pelo teste; execução padrão continua sem banco.
+
+Escopo: teste da estrutura preparatória. CRUD, engineVersion/schemaVersion persistidos e recálculo continuam CL-010; não mudar regra nem API na CL-005.
+
 ## CL-006 — aceitação da evidência (2026-11-06)
 
 - E01: registrar patch/build exato, plataforma, DLC e ausência de mods que alterem progressão. Família 2.5 + DLC é intenção do jogador, não ambiente observado.

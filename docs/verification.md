@@ -1,5 +1,15 @@
 # Verificação — 2026-11-05
 
+## CL-005 — PostgreSQL real, 2026-11-06
+
+- Aceitação DB01–04 registrada em `03-acceptance.md` antes da implementação. Nenhuma mudança de regra/API ou V1; nenhum endpoint de persistência implementado.
+- No diretório backend, com CHROMELAB_POSTGRES_TEST=true e DB_URL/DB_USER/DB_PASSWORD do Compose local: `mvn '-Dmaven.repo.local=../.cache/m2' test`: PASS, 13 testes, zero falhas/erros/ignorados. PostgreSQL real 17.11 em loopback 55432.
+- Integração: V1 aplicada uma vez em schema UUID exclusivo; nova instância Flyway não reaplicou e validou checksum; releitura de build/snapshot preservou UUIDs, JSONB real do motor, vínculos, timestamps e ruleset draft. Três FKs inexistentes rejeitadas com SQLSTATE 23503; 12 valores JSONB não objeto rejeitados com 23514.
+- Revisão independente por subagente somente leitura: sem achados acionáveis no teste, instruções e aceitação. Timeouts explícitos configurados no JDBC de teste, mas não nas conexões internas do Flyway: limitação operacional registrada.
+- Verificação independente: alvo `PostgresIntegrationTest` sem flag → PASS, um teste ignorado; opt-in com URL `jdbc:postgresql://127.0.0.1:1/chromelab` → falha esperada por conexão recusada, um erro, zero ignorados, antes de criar schema. Consulta somente leitura via psql confirmou zero schemas `cl005_test_%` restantes. Classe compilada é posterior à última edição do teste. O último relatório local Surefire da integração corresponde ao negativo esperado, não à suíte positiva anterior.
+- Ambiente: tentativa inicial de suíte sem acesso autorizado ficou parada após auto-attach Mockito; interrompida, sem resultado conclusivo. Reexecução autorizada passou; nenhuma permissão global alterada. gh ausente; Git Credential Manager já tinha conta 0064558. GitHub issues público retornou HTTP 200 e lista vazia; fila usada é docs/05.
+- Não executados nesta CL-005: testes frontend/build, navegador, endpoints de persistência, versionamento/recálculo M1, jogo ou revisão humana CL-006. Não houve mudança em frontend, motor ou API que exigisse repetir sua cobertura além da suíte Java.
+
 ## Rechecagem do incremento de UI — 2026-11-06
 
 - Alterações locais preexistentes em `App.tsx`, `App.test.tsx`, `styles.css`, `06-character-ui.md` e capturas preservadas.

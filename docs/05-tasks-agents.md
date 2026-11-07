@@ -23,7 +23,7 @@
 | CL-010 | Salvar/reabrir builds e snapshots versionados | 005,008 | Round-trip PostgreSQL, 404, recálculo explícito; M |
 | CL-011 | Fluxo completo e validação com três jogadores | 006,009,010 | E2E, acessibilidade, observações de valor; S |
 
-M0 está preparado/implementado em 001–004 e infraestrutura parcial de 005; resultados exatos em verification.md. M1 só está pronto após 006–011. Tamanhos são relativos, não promessas de duração. Caminho crítico: evidência → catálogo → motor perks → integração. Frontend pode trabalhar em estados/mock de contrato, mas nunca apresentar mock como resultado real.
+M0 está preparado/implementado em 001–004. CL-005 tem teste opt-in de infraestrutura PostgreSQL real (migração vazia/repetida, round-trip e negativos), sem endpoints de persistência; resultados exatos em verification.md. M1 só está pronto após 006–011. Tamanhos são relativos, não promessas de duração. Caminho crítico: evidência → catálogo → motor perks → integração. Frontend pode trabalhar em estados/mock de contrato, mas nunca apresentar mock como resultado real.
 
 ## Papéis
 - Coordenador: visão, contrato compartilhado, conflitos e integração; único dono dos arquivos compartilhados.
