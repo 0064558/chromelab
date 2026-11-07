@@ -51,9 +51,11 @@ Encerre o backend padrão antes de iniciar outro na mesma porta. O perfil aplica
 
 O PostgreSQL do Compose usa a porta local55432. Para outro valor, defina POSTGRES_PORT no Compose e DB_URL correspondente no backend.
 
+CL-005: teste opt-in de migração vazia/repetida, round-trip e constraints no PostgreSQL real disponível conforme [instruções do backend](backend/README.md#cl-005--teste-opt-in-no-postgresql-real). Usa schema exclusivo temporário; não implementa os endpoints de persistência da CL-010.
+
 Defina essas variáveis no mesmo terminal do Maven; elas não são transferidas automaticamente para outra janela. Se ocorrer `password authentication failed`, confira as três variáveis para evitar conectar a outro banco ou usar uma senha antiga.
 
 ## Próximo incremento
 CL-006: validar as regras numéricas e fixar patch/plataforma suportados; depois CL-007 e CL-008: catálogo pequeno de perks com fontes e planejamento de pré-requisitos. O backlog separa a entrega M0 do MVP completo M1.
 
-Nenhum remoto, PR ou implantação foi criado. AGENTS.md e o roteiro de PRs estão prontos para uso no repositório que você escolher.
+O remoto existente é `0064558/chromelab`. Desenvolvimento contínuo e estado dos envios são registrados em [agent-handoff.md](docs/agent-handoff.md); merge, releases e implantação ficam fora desta execução.

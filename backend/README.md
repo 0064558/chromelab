@@ -25,4 +25,22 @@ Flyway aplica o esquema preparatório de rulesets, builds e snapshots. Não há 
 
 `PlanEngine` é Java puro, sem IO. `PlanApiTest` valida integração HTTP sem banco; `PlanEngineTest` cobre orçamento, reset consentido, restrição do nível 1 e 500 cenários gerados com semente fixa. `PostgresConfigurationTest` verifica apenas seleção do profile; não substitui teste contra PostgreSQL real.
 
+## CL-005 — teste opt-in no PostgreSQL real
+
+Na raiz do repositório, use `docker compose up -d postgres` para iniciar o serviço de desenvolvimento já definido. Depois, no diretório `backend`, configure no mesmo terminal:
+
+```powershell
+$env:CHROMELAB_POSTGRES_TEST = 'true'
+$env:DB_URL = 'jdbc:postgresql://127.0.0.1:55432/chromelab'
+$env:DB_USER = 'chromelab'
+$env:DB_PASSWORD = 'chromelab_dev'
+try { mvn test } finally { Remove-Item Env:CHROMELAB_POSTGRES_TEST }
+```
+
+O usuário precisa poder criar schemas nesse banco de desenvolvimento. `PostgresIntegrationTest` cria um schema exclusivo com UUID, aplica V1 pelo Flyway, insere estado/build e snapshot com request/response produzidos pelo motor, e reinicia o Flyway antes de reler os dados. Confere UUIDs, JSONB, vínculos, status `draft`, timestamps e rejeição de FKs inexistentes e JSONB não objeto nas três colunas. Ao terminar, remove somente o schema criado por essa execução, inclusive em falhas; não apaga banco, volume ou schema `public`.
+
+Sem `CHROMELAB_POSTGRES_TEST=true`, esse teste é ignorado e `mvn test` continua sem precisar do banco. Com a opção ativa, senha ausente, conexão indisponível ou falha de migração fazem o teste falhar; não há fallback para banco em memória. Para executar só a integração, use `mvn test '-Dtest=PostgresIntegrationTest'` com as mesmas variáveis. Utilize URL PostgreSQL JDBC simples e um banco local de desenvolvimento, sem opções que alterem schema ou roteiem para produção.
+
+Este round-trip valida apenas a estrutura preparatória V1. Não implementa persistência HTTP, versionamento de snapshots M1 ou recálculo (CL-010), nem certifica regras do jogo (CL-006).
+
 Em ambientes de arquivos restritos, passe `'-Dmaven.repo.local=<diretorio-gravavel>'` aos comandos Maven. Não versionar esse cache, `target/` nem credenciais.
