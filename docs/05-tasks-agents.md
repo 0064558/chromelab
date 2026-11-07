@@ -41,6 +41,8 @@ Na CLI, a documentação oficial apresenta `codex --sandbox workspace-write --as
 Fontes oficiais consultadas em 2026-11-05: [permissões](https://learn.chatgpt.com/docs/agent-approvals-security), [subagentes](https://learn.chatgpt.com/docs/agent-configuration/subagents), [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
 ## Prompt pronto — próxima tarefa
+
+CL-006 em 2026-11-06: coleta documental parcial registrada em `07-cl-006-validation.md` e `fixtures/cl-006/evidence-v1.json`. Alvo desejado = família 2.5 com Phantom Liberty; plataforma/build e execução no jogo pendentes. Não concluída nem promovida; próximos passos são capturas do roteiro e revisão humana. CL-007 não iniciado.
 > Implemente CL-006 do ChromeLab. Leia AGENTS.md e docs/01–05. Trabalhe somente no registro de evidências e fixtures. Confira G04–G07 em fonte primária ou evidência do jogo fornecida pelo jogador. Não marque regra como validada com base apenas em snippets ou testes do próprio motor. Não altere o motor silenciosamente. Entregue evidências, diferenças encontradas e cenários de regressão. Se precisar interação do jogador com o jogo, prepare primeiro um roteiro curto e exato.
 
 ## Prompt pronto — implementação

@@ -33,7 +33,15 @@ export default function App() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const active = useRef<AbortController | null>(null);
+  const resultsRef = useRef<HTMLElement>(null);
   useEffect(() => () => active.current?.abort(), []);
+  useEffect(() => {
+    if (loading || (!result && !error)) return;
+    const section = resultsRef.current;
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    section?.scrollIntoView?.({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    section?.focus({ preventScroll: true });
+  }, [result, error, loading]);
   function update(changes: Partial<PlanRequest>) {
     active.current?.abort(); active.current = null;
     setLoading(false); setResult(null); setError('');
@@ -55,7 +63,7 @@ export default function App() {
     <header className="topbar"><a className="brand" href="#main" aria-label="ChromeLab, início">Chrome<span>Lab</span><small>BUILD NAVIGATOR</small></a><div className="header-meta"><span>CYBERPUNK 2077</span><span className="build-tag">PRÉVIA / 001</span></div></header>
     <main id="main">
       <div className="page-title"><div><p className="eyebrow">BUILD RESCUE / SMART PROGRESSION</p><h1>PERSONAGEM</h1></div><p className="scope-note">Prévia experimental de atributos<br /><span>Regras numéricas aguardam validação no jogo.</span></p></div>
-      <form onSubmit={submit}>
+      <form className="planner-form" onSubmit={submit}>
         <div className="character-workspace">
           <aside className="character-sidebar" aria-label="Configurações da progressão">
             <p className="rail-kicker">01 / PONTO DE PARTIDA</p>
@@ -82,7 +90,7 @@ export default function App() {
         </div>
         <div className="command-bar"><div className="command-status"><span className="status-dot" />SISTEMA DE ATRIBUTOS<small>Perks, armas e cyberware ainda não são avaliados.</small></div><button className="primary" disabled={loading} type="submit">{loading ? 'Calculando rota…' : 'Traçar minha rota'}<span aria-hidden="true">↗</span></button></div>
       </form>
-      <section className="results" aria-live="polite" aria-busy={loading}>
+      <section ref={resultsRef} className="results" tabIndex={-1} aria-label="Resultado da rota" aria-live="polite" aria-busy={loading}>
         {error && <div role="alert" className="error"><strong>Não conseguimos traçar sua rota.</strong><p>{error}</p></div>}
         {loading && <p className="loading">Analisando seu ponto de partida e os mínimos desejados…</p>}
         {result && <div className={`result-panel ${result.status.toLowerCase()}`}><div className="result-heading"><div><p className="eyebrow">03 / SUA ROTA</p><h2>{statusLabels[result.status]}</h2></div><span className="result-badge">{result.usesReset ? 'COM RESET' : result.status === 'UNREACHABLE' ? 'OBJETIVO INVIÁVEL' : 'SEM RESET'}</span></div>

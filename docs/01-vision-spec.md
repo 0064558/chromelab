@@ -2,6 +2,8 @@
 
 Versão 0.1 · 5 de novembro de 2026 · decisões iniciais revisáveis.
 
+CL-006, acompanhamento em 2026-11-06: alvo desejado pelo jogador é a versão mais recente, família 2.5, com Phantom Liberty. Patch/build instalado e plataforma aguardam captura; não há patch certificado. `attributes-2.0-v1` permanece experimental. Evidências parciais e roteiro em `07-cl-006-validation.md`; nenhuma semântica de regra/API foi alterada nesta investigação.
+
 ## Visão
 Responder: **“Com o personagem que já tenho, como chego ao estilo que quero?”** O produto deve explicar se é possível, quais pontos faltam, o que preservar e o que fazer a seguir. Não promete a melhor build universal ou DPS estimado sem evidência.
 

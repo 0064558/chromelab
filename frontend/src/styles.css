@@ -15,6 +15,8 @@
 .level-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .level-fields .level-field{flex-direction:column;align-items:stretch;gap:10px;border:0;padding:0}
 .level-fields .level-field input{width:100%;padding:12px 0}
+.results{scroll-margin-top:24px}
+.results:focus{outline:none}
 @media(max-width:820px){
   .character-sidebar{display:block}
   .character-presets{padding:4px 0 24px}
@@ -77,5 +79,11 @@
   .character-sidebar,.character-presets{grid-row:2;padding-top:20px}
   .command-bar{grid-template-columns:1fr 1fr}
   .primary{grid-column:2;min-width:0;width:100%}
+}
+@media(min-width:1200px){
+  .planner-form{display:flex;flex-direction:column;min-height:calc(100svh - 148px)}
+  .character-workspace{flex:1}
+  .character-stage{margin-top:-58px}
+  .command-bar{margin-top:20px;flex-shrink:0}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}

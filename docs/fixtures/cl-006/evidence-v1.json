@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "fixtureId": "cl-006-evidence-v1",
+  "rulesetId": "attributes-2.0-v1",
+  "status": "PENDING",
+  "collectedAt": "2026-11-06",
+  "desiredTarget": {
+    "patchFamily": "2.5",
+    "selection": "latest released, exact installed build not observed",
+    "phantomLiberty": true,
+    "platform": null
+  },
+  "certifiedTarget": null,
+  "documentaryEvidence": [
+    {
+      "id": "S05-page9",
+      "ruleIds": ["G04", "G05", "G07"],
+      "status": "OBSERVED_DOCUMENT_PARTIAL",
+      "url": "https://cdn-s-cyberpunk.cdprojektred.com/CP2077-UE-Booklet-EN-1.pdf",
+      "announcementUrl": "https://www.cyberpunk.net/en/news/49789/cyberpunk-2077-ultimate-edition-game-booklet-out-now",
+      "announcementDate": "2023-12-20",
+      "checkedAt": "2026-11-06",
+      "location": "PDF page 9, printed page 9, WHEN STARTING WITH THE BASE GAME",
+      "method": "Downloaded PDF; searched extracted text; rendered and visually inspected page 9",
+      "bytes": 21864547,
+      "sha256": "67796864506c16d115442784120fb312ab25b43f182122d8c8f990a16f045b4d",
+      "patch": null,
+      "platform": null,
+      "observed": {
+        "attributeCount": 5,
+        "basePerAttribute": 3,
+        "initialAllocatablePoints": 7,
+        "creationCap": 6
+      },
+      "limitations": ["Historical document, no tested patch/build", "Does not establish post-creation level-1 cap, per-level income, complete budget, cap 20 or level caps 50/60", "No in-game scenario executed"]
+    },
+    {
+      "id": "S01-shards-question",
+      "ruleIds": ["G05"],
+      "status": "OPEN_QUESTION",
+      "url": "https://www.cyberpunk.net/en/news/49060/update-2-0",
+      "sourceDate": "2023-09-21",
+      "checkedAt": "2026-11-06",
+      "location": "PERKS & SKILLS, progression shards bullet",
+      "observed": "Names Attribute Shards without specifying their effect",
+      "limitations": ["Neither confirms extra attribute points nor certifies L+21 as exhaustive"]
+    },
+    {
+      "id": "S06-target-family",
+      "ruleIds": [],
+      "status": "OBSERVED_RELEASE_ANNOUNCEMENT",
+      "url": "https://www.cyberpunk.net/en/news/52120/check-out-whats-coming-to-night-city-in-the-edgerunners-2-update-for-cyberpunk-2077",
+      "sourceDate": "2026-10-21",
+      "checkedAt": "2026-11-06",
+      "location": "Opening release/platform paragraph",
+      "observed": "Announces Update 2.5 rollout from 2026-10-22 on listed platforms",
+      "limitations": ["Does not confirm installed build, latest hotfix or G04-G07 invariance"]
+    }
+  ],
+  "historicalRechecks": [
+    {"sourceId": "S01", "ruleIds": ["G01"], "url": "https://www.cyberpunk.net/en/news/49060/update-2-0", "location": "PERKS & SKILLS", "checkedAt": "2026-11-06", "scope": "2.0 historical only"},
+    {"sourceId": "S02", "ruleIds": ["G02"], "url": "https://www.cyberpunk.net/en/news/48958/build-planner-craft-your-cyberpunk-2077-and-phantom-liberty-builds", "location": "Attribute reset / out-of-combat perk redistribution paragraph", "checkedAt": "2026-11-06", "scope": "2.0 historical only"},
+    {"sourceId": "S03", "ruleIds": ["G01", "G03"], "url": "https://www.cyberpunk.net/en/news/48700/redstreams-brief-summary-and-recap", "location": "Perk overhaul; New skill tree", "checkedAt": "2026-11-06", "scope": "2.0 historical only"}
+  ],
+  "gameScenarioTemplates": [
+    {
+      "scenarioId": "progression-template",
+      "kind": "UNEXECUTED_TEMPLATE",
+      "ruleIds": ["G04", "G05", "G07"],
+      "status": "PENDING",
+      "checkedAt": null,
+      "context": {"patch": null, "build": null, "platform": null, "store": null, "phantomLiberty": null, "progressionMods": null, "characterId": null},
+      "procedure": ["Record context and creation before/after allocation", "Record post-creation level 1 with balance; test above 6 only if a point is available", "Record levels 2 and 3 and one investment; isolate other rewards"],
+      "hypothesis": {"basePerAttribute": 3, "creationPoints": 7, "creationCap": 6, "postCreationLevelOneCap": 6, "pointsPerLevel": 1, "budgetFormula": "L+21"},
+      "observed": null,
+      "attachments": [],
+      "coveredSubclaims": [],
+      "reproducedScenarioIds": [],
+      "reviewer": {"name": null, "date": null, "decision": "PENDING"}
+    },
+    {
+      "scenarioId": "caps-template",
+      "kind": "UNEXECUTED_TEMPLATE",
+      "ruleIds": ["G04", "G06"],
+      "status": "PENDING",
+      "checkedAt": null,
+      "context": {"patch": null, "build": null, "platform": null, "phantomLiberty": null, "progressionMods": null},
+      "procedure": ["Record planner URL/context and cap controls", "Record corresponding game cap and DLC state when available", "Separate base and DLC executions; do not infer base cap from DLC ownership"],
+      "hypothesis": {"attributeCap": 20, "baseLevelCap": 50, "dlcLevelCap": 60},
+      "observed": null,
+      "attachments": [],
+      "coveredSubclaims": [],
+      "reproducedScenarioIds": [],
+      "reviewer": {"name": null, "date": null, "decision": "PENDING"}
+    },
+    {
+      "scenarioId": "reset-perks-relic-template",
+      "kind": "UNEXECUTED_TEMPLATE",
+      "ruleIds": ["G01", "G02", "G03"],
+      "status": "PENDING",
+      "checkedAt": null,
+      "context": {"patch": null, "build": null, "platform": null, "phantomLiberty": null, "progressionMods": null},
+      "procedure": ["Record reset UI, out-of-combat perk refund and separate Relic progression", "Do not execute reset; leave behavioral confirmation pending if it needs separate player consent"],
+      "hypothesis": {"attributeResetUses": 1, "perkRefundOutsideCombat": true, "relicProgressionSeparate": true},
+      "observed": null,
+      "attachments": [],
+      "coveredSubclaims": [],
+      "reproducedScenarioIds": [],
+      "reviewer": {"name": null, "date": null, "decision": "PENDING"}
+    }
+  ],
+  "executedGameScenarioIds": [],
+  "humanReview": {"name": null, "date": null, "decision": "PENDING", "evidenceIds": []}
+}

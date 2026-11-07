@@ -1,5 +1,24 @@
 # Verificação — 2026-11-05
 
+## Rechecagem do incremento de UI — 2026-11-06
+
+- Alterações locais preexistentes em `App.tsx`, `App.test.tsx`, `styles.css`, `06-character-ui.md` e capturas preservadas.
+- `cd frontend; npm test`: PASS, 1 arquivo, 8 testes, zero falhas (Vitest 3.2.7). Inclui foco/rolagem no sucesso, erro com movimento reduzido e descarte de resposta antiga após edição.
+- `cd frontend; npm run build`: PASS, TypeScript e Vite 7.3.7, 30 módulos transformados.
+- Subagente revisor em somente leitura por instrução: nenhum achado acionável por inspeção do diff e contexto; nenhuma correção adicional necessária. Sem mudanças de regra/API.
+- Não repetidos nesta rodada: navegador real, leitor de tela, zoom e limite desktop de 1200px. Capturas e medições em `06-character-ui.md` são registros da tarefa anterior, não novas observações. A suíte não cobre rejeição antiga ou duas solicitações sobrepostas; a revisão inspecionou as guardas de cancelamento, sem comprovação E2E desses casos.
+- Backend e PostgreSQL não reexecutados nesta etapa de UI, pois não foram alterados. Os resultados abaixo continuam sendo históricos de 2026-11-05.
+
+## CL-006 — investigação documental em 2026-11-06
+
+- Somente docs/fixtures alterados nesta etapa; motor, contrato executável, API, migrations e frontend preservados. Não iniciado CL-007, sem publicação/merge ou operação de saves.
+- Um subagente pesquisou fontes primárias e outro auditou rastreabilidade em somente leitura por instrução. Revisão final dos documentos/fixture: sem correções obrigatórias; E01/E03/E05 pendentes, E02 parcial, E04 com roteiro e E06 preservado. Isso não substitui revisão humana do gate.
+- S01–S03 reabertas por leitura web, escopo histórico 2.0 mantido. S04 não expôs valores interativos. S05 baixado, texto pesquisado e página 9 renderizada/inspecionada; cinco/base 3, sete iniciais e teto 6 na criação têm evidência documental histórica parcial. S06 registra anúncio 2.5, sem confirmar build instalado ou regras numéricas. Apresentação H1 2023 renderizada não confirmou par 50/60.
+- Verificação local por Python: PASS, JSON parseável, schemaVersion 1, três templates sem execução/observações, certifiedTarget nulo, status PENDING, revisão humana pendente, hash/tamanho S05 conferidos e referências CL-006 presentes em cinco documentos. `git diff --check`: PASS, apenas avisos de conversão LF/CRLF do Git.
+- Falhas de ambiente: Firecrawl sem resolução DNS; fallback web. Leitor web recusou S05 por tamanho; download local com acesso autorizado e bibliotecas PDF já instaladas resolveu a leitura. Caches/PDFs/renders em `.firecrawl/` ignorado; nenhuma credencial/serviço adicionado.
+- Não executados: cenários no jogo, limites reais base/DLC, investigação comportamental de shards, reset, revisão humana, novos testes Java/API/PostgreSQL ou E2E. Mudança desta etapa é documental, sem novas regras para testar no motor.
+- Alvo desejado informado pelo jogador: última versão/família 2.5 com Phantom Liberty. Plataforma/build exato não observado. CL-006 permanece PENDING e ruleset experimental; roteiro do jogador em `07-cl-006-validation.md` e registros em `fixtures/cl-006/evidence-v1.json`.
+
 Projeto recuperado e copiado para a pasta atual, sem substituir arquivos preexistentes (a pasta estava vazia). Caches locais foram reaproveitados e estão ignorados no Git.
 
 ## Resultados observados

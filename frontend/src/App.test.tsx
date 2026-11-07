@@ -37,9 +37,13 @@ describe('Build Rescue', () => {
   it('envia o contrato à API e exibe o resultado real', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => plan });
     vi.stubGlobal('fetch', fetchMock); render(<App />);
+    const results = screen.getByRole('region', { name: 'Resultado da rota' });
+    const scroll = vi.fn(); results.scrollIntoView = scroll;
     fireEvent.click(screen.getByRole('button', { name: /Traçar minha rota/ }));
     expect(await screen.findByText('Você tem um caminho.')).toBeInTheDocument();
     expect(screen.getByText('Rota calculada pelo motor.')).toBeInTheDocument();
+    expect(scroll).toHaveBeenCalledExactlyOnceWith({ behavior: 'smooth', block: 'start' });
+    expect(results).toHaveFocus();
     const [url, options] = fetchMock.mock.calls[0];
     expect(url).toBe('/api/v1/plans');
     expect(JSON.parse(options.body)).toMatchObject({ level: 23, targetLevel: 40, allowReset: false, rulesetId: 'attributes-2.0-v1' });
@@ -49,11 +53,26 @@ describe('Build Rescue', () => {
   it('descarta respostas antigas quando os dados mudam durante a requisição', async () => {
     let complete!: (value: unknown) => void;
     vi.stubGlobal('fetch', vi.fn().mockImplementation(() => new Promise(resolve => { complete = resolve; })));
-    render(<App />); fireEvent.click(screen.getByRole('button', { name: /Traçar minha rota/ }));
+    render(<App />);
+    const scroll = vi.fn(); screen.getByRole('region', { name: 'Resultado da rota' }).scrollIntoView = scroll;
+    fireEvent.click(screen.getByRole('button', { name: /Traçar minha rota/ }));
+    expect(scroll).not.toHaveBeenCalled();
     fireEvent.change(screen.getByRole('spinbutton', { name: 'Nível alvo' }), { target: { value: '41' } });
     complete({ ok: true, json: async () => plan });
     await waitFor(() => expect(screen.getByRole('button', { name: /Traçar minha rota/ })).not.toBeDisabled());
     expect(screen.queryByText('Você tem um caminho.')).not.toBeInTheDocument();
+    expect(scroll).not.toHaveBeenCalled();
+  });
+  it('leva ao erro sem animação quando o usuário prefere movimento reduzido', async () => {
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }));
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Network error')));
+    render(<App />);
+    const results = screen.getByRole('region', { name: 'Resultado da rota' });
+    const scroll = vi.fn(); results.scrollIntoView = scroll;
+    fireEvent.click(screen.getByRole('button', { name: /Traçar minha rota/ }));
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(scroll).toHaveBeenCalledExactlyOnceWith({ behavior: 'auto', block: 'start' });
+    expect(results).toHaveFocus();
   });
   it('não fabrica um plano quando o servidor está indisponível', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Network error')));
