@@ -15,7 +15,7 @@ Objetivo: concluir incrementos executáveis existentes, um por vez, com testes, 
 
 | Issue | Estado | Critério para concluir / dependência |
 |---|---|---|
-| CL-005 | Implementada e revisada; envio pendente | DB01–04 passaram: migração vazia/repetida, round-trip e negativos no PostgreSQL real |
+| CL-005 | Concluída e enviada | DB01–04 passaram: migração vazia/repetida, round-trip e negativos no PostgreSQL real |
 | CL-006 | Bloqueada por participação humana | E01–E05: build/plataforma, cenários reais e revisão humana; manter PENDING/experimental |
 | CL-007 | Bloqueada | CL-006 validada e fontes por rank/aresta |
 | CL-008 | Bloqueada | CL-007; invariantes M1 |
@@ -34,5 +34,7 @@ CL-001–004 implementadas segundo backlog e verificações históricas. Não in
 - Suíte Java autorizada: 13 testes PASS, zero falhas/erros/skips; PostgreSQL 17.11 real. Tentativa inicial restrita interrompida após auto-attach Mockito, sem resultado conclusivo.
 - Revisor independente: sem achados acionáveis; verificou opt-out (1 skipped, sucesso), opt-in com porta1 (1 erro esperado por conexão recusada antes CREATE) e cleanup (zero schemas de teste restantes por psql). Último Surefire local da integração contém o negativo esperado; suíte positiva anterior registrada em verification.
 - Não executados: frontend/browser, persistência HTTP M1, jogo e revisão humana. Timeouts Flyway internos não configurados explicitamente; JDBC do teste tem timeouts.
-- Arquivos em andamento: somente os sete arquivos pertinentes acima, prontos para commit. Próximo passo imediato: commit CL-005 e push, verificar hash remoto, registrar resultado.
+- Commit da CL-005: `26a37d541536c8e43511936e7a377e7a26c04404`, `test(db): verify PostgreSQL migration and round-trip (CL-005)`; sete arquivos pertinentes e revisados.
+- Push concluído em `origin/codex/desenvolvimento-continuo`; `git ls-remote --heads origin refs/heads/codex/desenvolvimento-continuo` confirmou o mesmo hash. Conta existente autenticou a escrita. Main preservada; sem merge, release, deploy ou novo serviço. Registro documental de encerramento segue em commit separado nesta mesma branch.
+- Arquivos de implementação em andamento: nenhum. Execução encerrada por esgotamento da fila pronta; próximo passo de produto depende do jogador e revisor humano na CL-006.
 - Após envio, não há outra issue pronta: todas as restantes dependem direta ou transitivamente de CL-006. Encerrar no limite solicitado, deixando roteiro `07-cl-006-validation.md` para jogador/revisor humano. Não repetir pesquisa documental já feita nem iniciar CL-007.
